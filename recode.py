@@ -25,8 +25,9 @@ if args.phase == "phase1":
 elif args.phase == "phase2":
     for file in sys.stdin:
         f = file.strip()
-        srcfile = os.path.abspath(os.path.join(srcdir, f))
-        dstfile = os.path.abspath(os.path.join(dstdir, f))
+        filenames = f.split('\t')
+        srcfile = os.path.abspath(os.path.join(srcdir, filenames[0]))
+        dstfile = os.path.abspath(os.path.join(dstdir, filenames[-1]))
         if args.perform:
             os.makedirs(os.path.dirname(dstfile), exist_ok=True)
         r.recode_file(srcfile, dstfile, not args.perform)
