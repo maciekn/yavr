@@ -30,6 +30,9 @@ def map_metadata(src, dest, dry_run):
 
 # -y -i src -movflags use_metadata_tags -map 0 -c:v libx264 -crf 21 -c:a copy -copy_unknown -map_metadata 0 dest
 # -y -i src -movflags use_metadata_tags -map 0 -c copy -copy_unknown -c:v libx264 -crf 21
+
+#Hardware encoder
+# ffmpeg -i src -movflags use_metadata_tags -map 0 -c copy -copy_unknown -c:v hevc_qsv -vf "transpose=dir=2" -preset fast -global_quality 25 dest
 def recode_file(src, dest, dry_run=True):
     args = [rt.get_ffmpeg(), '-y', '-i', src, '-movflags', 'use_metadata_tags', '-map', '0',
              '-c', 'copy', '-copy_unknown',
