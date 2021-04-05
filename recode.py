@@ -44,10 +44,3 @@ elif args.phase == "phase4":
         dstfile = os.path.abspath(os.path.join(dstdir, f))
         r.commit_changes(srcfile, dstfile, not args.perform)
 
-
-# moviestotrim = [
-
-# ]
-# for m in moviestotrim:
-#     args = m.split('\t')
-#     trim_file(outdir, trimdir, args[0], args[1], args[2] if len(args) == 3 else None)

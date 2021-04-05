@@ -4,9 +4,6 @@ import json
 import recodetools as rt
 
 
-# exiftool "-FileModifyDate<CreateDate"
-
-
 def _os_call(args, dry_run):
     if dry_run:
         print("Calling " + " ".join(args))
@@ -26,13 +23,9 @@ def _os_call_output(args, dry_run):
 def map_metadata(src, dest, dry_run):
     rewrite_exif_args = [rt.get_exiftool(), '-overwrite_original_in_place', "-ee", '-tagsfromfile', src, "-all:all", "-FileModifyDate<CreateDate", dest]
     _os_call(rewrite_exif_args, dry_run)
+# commented out as we are trying to map file dates with exiftool above
 #    _os_call([rt.get_touch(), '-r', src, dest], dry_run)
 
-# -y -i src -movflags use_metadata_tags -map 0 -c:v libx264 -crf 21 -c:a copy -copy_unknown -map_metadata 0 dest
-# -y -i src -movflags use_metadata_tags -map 0 -c copy -copy_unknown -c:v libx264 -crf 21
-
-#Hardware encoder
-# ffmpeg -i src -movflags use_metadata_tags -map 0 -c copy -copy_unknown -c:v hevc_qsv -vf "transpose=dir=2" -preset fast -global_quality 25 dest
 def recode_file(src, dest, dry_run=True):
     args = [rt.get_ffmpeg(), '-y', '-i', src, '-movflags', 'use_metadata_tags', '-map', '0',
              '-c', 'copy', '-copy_unknown',
