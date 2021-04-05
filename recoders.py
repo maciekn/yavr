@@ -24,9 +24,9 @@ def _os_call_output(args, dry_run):
 
 
 def map_metadata(src, dest, dry_run):
-    rewrite_exif_args = [rt.get_exiftool(), '-overwrite_original_in_place', "-ee", '-tagsfromfile', src, "-all:all", dest]
+    rewrite_exif_args = [rt.get_exiftool(), '-overwrite_original_in_place', "-ee", '-tagsfromfile', src, "-all:all", "-FileModifyDate<CreateDate", dest]
     _os_call(rewrite_exif_args, dry_run)
-    _os_call([rt.get_touch(), '-r', src, dest], dry_run)
+#    _os_call([rt.get_touch(), '-r', src, dest], dry_run)
 
 # -y -i src -movflags use_metadata_tags -map 0 -c:v libx264 -crf 21 -c:a copy -copy_unknown -map_metadata 0 dest
 # -y -i src -movflags use_metadata_tags -map 0 -c copy -copy_unknown -c:v libx264 -crf 21
@@ -36,7 +36,7 @@ def map_metadata(src, dest, dry_run):
 def recode_file(src, dest, dry_run=True):
     args = [rt.get_ffmpeg(), '-y', '-i', src, '-movflags', 'use_metadata_tags', '-map', '0',
              '-c', 'copy', '-copy_unknown',
-            '-c:v', 'libx264', '-crf', '21', '-profile:v', 'high', '-level:v', '5.1',
+            '-c:v', 'libx265', '-crf', '28',
             dest]
     _os_call(args, dry_run)
 
